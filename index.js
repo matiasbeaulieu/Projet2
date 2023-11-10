@@ -20,7 +20,7 @@ app.use("/api/converter", require("./routes/api/converter"));
 
 
 // Port d'écoute du serveur
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 80;
 app.listen(PORT, () => {
     console.log(`Serveur en écoute sur le port ${PORT}`);
 });

@@ -1,7 +1,38 @@
+const mongoose = require('mongoose');
+// Tes modèles et connexions MongoDB
+const accessLogSchema = new mongoose.Schema({
+    ipAddress: String,
+    timestamp: { type: Date, default: Date.now },
+    requestType: String,
+    val: Number,
+    type: String
+   // requestLink: String
+});
 
+const AccessLog = mongoose.model('AccessLog', accessLogSchema);
 const express = require("express");
 
 const router = express.Router();
+
+// Middleware de logging
+router.use(async (req, res, next) => {
+    const accessLog = new AccessLog({
+        ipAddress: req.ip,
+        requestType: req.method,
+        val: req.val,
+        type: req.type
+    });
+
+    try {
+        await accessLog.save();
+        console.log('Requête enregistrée :', req.ip, req.method, req.originalUrl);
+        next();
+    } catch (error) {
+        console.error('Erreur lors de l\'enregistrement du journal d\'accès :', error);
+        res.status(500).send('Erreur lors de l\'enregistrement du journal d\'accès');
+    }
+});
+
 
 router.get("/", (req, res) => {
     res.send("Need a POST request plz!");
@@ -11,7 +42,7 @@ router.post("/", async (req, res) => {
     const { type, value } = req.body;
     let resultat;
     let message;
-
+    
 
     switch (type.toLowerCase()) {
         case "feet2meter":
@@ -67,7 +98,26 @@ router.post("/", async (req, res) => {
         default:
             res.status(400).send("Le type entrée est invalide.");
             return;
+            
     }
+
+    const accessLog = new AccessLog({
+        ipAddress: req.ip,
+        requestType: req.method,
+        val: resultat,
+        type: type
+        
+    });
+
+    try {
+        await accessLog.save();
+        //res.send('Journal d\'accès enregistré avec succès !');
+    } catch (error) {
+        console.error('Erreur lors de l\'enregistrement du journal d\'accès :', error);
+        //res.status(500).send('Erreur lors de l\'enregistrement du journal d\'accès');
+    }
+    
+    
 
     console.log(`Données reçues : ${type} pour ${value}`);
     console.log(message);

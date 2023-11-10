@@ -71,7 +71,7 @@ router.post("/", async (req, res) => {
 
     console.log(`Données reçues : ${type} pour ${value}`);
     console.log(message);
-    if (isNaN(value) || value.trim()===''||typeof value === 'symbol'||typeof value  === 'string'){
+    if (isNaN(value) || (typeof value === 'string' && value.trim() === '')|| typeof value === 'symbol'){
        
         res.send('La valeur choisit est invalide!');
         

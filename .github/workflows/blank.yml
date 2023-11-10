@@ -28,4 +28,5 @@ jobs:
         with:
           node-version: 21.x
       - run: npm install
+      - run: killall node
       - run: sudo node index.js &

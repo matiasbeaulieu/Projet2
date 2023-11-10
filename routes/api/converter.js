@@ -96,7 +96,7 @@ router.post("/", async (req, res) => {
             message = `${value} m/s² converted to ${resultat} g.`;
             break;
         default:
-            res.status(400).send("Entrée invalide.");
+            res.status(400).send("Le type entrée est invalide.");
             return;
             
     }
@@ -121,7 +121,14 @@ router.post("/", async (req, res) => {
 
     console.log(`Données reçues : ${type} pour ${value}`);
     console.log(message);
-    res.send(`Valeur convertie : ${resultat} ${unite}.`);
+    if (isNaN(value) || (typeof value === 'string' && value.trim() === '')|| typeof value === 'symbol'){
+       
+        res.send('La valeur choisit est invalide!');
+        
+    }
+    else{
+         res.send(`Valeur convertie : ${resultat} ${unite}.`);
+    }
 });
 
 module.exports = router;

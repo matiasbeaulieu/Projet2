@@ -10,9 +10,9 @@
 //});
 
 //const AccessLog = mongoose.model('AccessLog', accessLogSchema);
-//const express = require("express");
+const express = require("express");
 
-//const router = express.Router();
+const router = express.Router();
 
 // Middleware de logging
 // router.use(async (req, res, next) => {

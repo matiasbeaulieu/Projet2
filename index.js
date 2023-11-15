@@ -2,8 +2,6 @@ const express = require("express");
 const mongoose = require('mongoose');
 const app = express();
 
-
-
 mongoose.connect('mongodb+srv://nodejs_projet:AQuuovw30OTgT9om@cluster0.8xuijmc.mongodb.net/journal', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const db = mongoose.connection;
